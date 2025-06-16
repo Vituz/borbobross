@@ -1,3 +1,4 @@
 borbo_venv
 *.pyc
 __pycache__
+borbobross/theme/static/css/dist/style.css

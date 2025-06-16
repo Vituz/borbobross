@@ -1,0 +1,22 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "style.css" %}"></link>
+    <title>
+        {% block title %}{% endblock  %}
+    </title>
+    {% tailwind_css %}
+    {% block css_files %}{% endblock  %}
+</head>
+<body>
+    {% block main-content %}{% endblock %}
+</body>
+<script src="{% static 'js/main.js' %}"></script>
+</html>

@@ -8,3 +8,53 @@
   * the scope of this path.
   */
 @source "../../../**/*.{html,py,js}";
+@tailwind utilities;
+
+@theme {
+  --font-display: "Satoshi", "sans-serif";
+  --breakpoint-3xl: 1920px;
+  --color-avocado-100: oklch(0.99 0 0);
+  --color-avocado-200: oklch(0.98 0.04 113.22);
+  --color-avocado-300: oklch(0.94 0.11 115.03);
+  --color-avocado-400: oklch(0.92 0.19 114.08);
+  --color-avocado-500: oklch(0.84 0.18 117.33);
+  --color-avocado-600: oklch(0.53 0.12 118.34);
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+  --color-primary: #14958d;
+  --color-secondary: #051c32;
+  --rounded-none: 0px;
+  --rounded-sm: 4px;
+  --rounded: 8px;        /* DEFAULT in Tailwind */
+  --rounded-md: 12px;
+  --rounded-lg: 16px;
+  --rounded-xl: 20px;
+  --rounded-2xl: 24px;
+  --rounded-3xl: 32px;
+  --rounded-full: 9999px;
+  --rounded-button: 8px;
+  /* ... */
+}
+
+@layer utilities{
+  ::-webkit-scrollbar{
+    width: 10px;
+    height: 10px;
+    margin: 10px;
+  }
+
+  ::-webkit-scrollbar-track{
+    border-radius: 0;
+    background: #1E1E1E;
+  }
+
+  ::-webkit-scrollbar-thumb{
+    background: #14958d;
+    border-radius: 100vh;
+    border: 1px solid #1E1E1E;
+  }
+
+  ::-webkit-scrollbar-thumb:hover{
+    background: #14958d;
+  }
+}
