@@ -21,8 +21,8 @@
   --color-avocado-600: oklch(0.53 0.12 118.34);
   --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
   --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
-  --color-primary: #14958d;
-  --color-secondary: #051c32;
+  --color-primary: #8e44ad;
+  --color-secondary: #2c3e50;
   --rounded-none: 0px;
   --rounded-sm: 4px;
   --rounded: 8px;        /* DEFAULT in Tailwind */

@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
     <link rel="stylesheet" href="{% static "style.css" %}"></link>
     <title>
         {% block title %}{% endblock  %}
@@ -18,7 +19,7 @@
 <body>
     <nav class="bg-secondary text-white shadow-md">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="#" class="text-2xl font-['Pacifico'] text-white">Borborygbros</a>
+            <a href="{% url 'home-page' %}" class="text-2xl font-['Montserrat'] text-white">Borborygbros</a>
             <button class="bg-primary hover:bg-opacity-80 text-white px-6 py-2 rounded rounded-button whitespace-nowrap transition-colors duration-300 flex items-center">
                 <i class="ri-user-line mr-2"></i>
                 Accedi
@@ -28,4 +29,5 @@
     {% block main-content %}{% endblock %}
 </body>
 <script src="{% static 'js/main.js' %}"></script>
+{% block script-section %}{% endblock %}
 </html>
