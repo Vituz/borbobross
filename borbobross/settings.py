@@ -130,7 +130,9 @@ STATICFILES_DIRS=[
 ]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-MEDIA_ROOT = BASE_DIR / 'uploads'
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -144,3 +146,5 @@ NPM_BIN_PATH = which('npm')
 CSRF_TRUSTED_ORIGINS=[
     
 ]
+
+AUTH_USER_MODEL = 'home.Player'
