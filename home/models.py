@@ -48,10 +48,10 @@ class Deck(models.Model):
 
 class Match(models.Model):
     year = models.CharField(max_length=10, verbose_name='Year')
-    winner_player = models.ForeignKey('Player', on_delete=models.SET_NULL, related_name='matches', verbose_name='Winner Player')
-    player = models.ManyToManyField('Player', related_name='matches', verbose_name='Paticipants')
-    winner_deck = models.ForeignKey('Deck', on_delete=models.SET_NULL, related_name='matches', verbose_name='Winner Deck')
-    deck = models.ManyToManyField('Deck', related_name='match_players', verbose_name='Decks')
+    winner_player = models.ForeignKey('Player', on_delete=models.SET_NULL, related_name='match_winners', verbose_name='Winner Player', null=True)
+    player = models.ManyToManyField('Player', related_name='match_players', verbose_name='Paticipants')
+    winner_deck = models.ForeignKey('Deck', on_delete=models.SET_NULL, related_name='matches', verbose_name='Winner Deck', null=True)
+    deck = models.ManyToManyField('Deck', related_name='match_deck', verbose_name='Decks')
 
     def __str__(self):
         return self.date
