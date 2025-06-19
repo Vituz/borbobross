@@ -5,6 +5,8 @@ from django.db import transaction
 
 class Player(AbstractUser):
     image = models.ImageField(upload_to='img/', verbose_name='Player Image')
+    win = models.IntegerField(default=0, verbose_name='Win Counter')
+    defeat = models.IntegerField(default=0, verbose_name='Defeat Counter')
 
     def __str__(self):
         return self.username   
@@ -24,6 +26,8 @@ class Deck(models.Model):
     color = models.ManyToManyField('Color', related_name='decks', verbose_name='Deck Colors')
     card_list = models.TextField(blank=True, verbose_name='Card List', help_text="Inserisci la lista delle carte, una per riga, es: '4 Lightning Bolt'")
     cards = models.ManyToManyField('Card', through='DeckCard', related_name='decks')
+    win = models.IntegerField(default=0, verbose_name='Win Counter')
+    defeat = models.IntegerField(default=0, verbose_name='Defeat Counter')
 
     def __str__(self):
         return self.name
