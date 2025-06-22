@@ -1,4 +1,5 @@
 {% load static tailwind_tags %}
+{% load unicorn %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -10,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
     <link rel="stylesheet" href="{% static "style.css" %}"></link>
+    {% unicorn_scripts %}
     <title>
         {% block title %}{% endblock  %}
     </title>
@@ -17,6 +19,7 @@
     {% block css_files %}{% endblock  %}
 </head>
 <body>
+    {% csrf_token %}
     <nav class="bg-secondary text-white shadow-md">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <a href="{% url 'home-page' %}" class="text-2xl font-['Montserrat'] text-white">Borborygbros</a>

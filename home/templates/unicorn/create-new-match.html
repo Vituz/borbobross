@@ -1,0 +1,105 @@
+<div unicor:id="test">
+<div class="mb-6">
+    <h4 class="text-lg font-semibold text-gray-800 mb-4">Vincitore</h4>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <label for="Vincitore">Nome Vincitore</label>
+            <select unicorn:model='winner_player_di' class="block text-sm font-medium text-gray-700 mb-1">
+                <option value="">---</option>
+                {% for pl in this.get_player %}
+                    <option value="{{pl.id}}">{{ pl.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="" class="block text-sm font-medium text-gray-700 mb-1">Deck</label>
+            <select unicorn.model='winner_deck_id'
+            class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                <option value="">---</option>
+                {% for deck in this.get_winner_deck_id %}
+                    <option value="{{deck.id}}"><{{ deck.name }}/option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>
+<div class="mb-6">
+    <h4 class="text-lg font-semibold text-gray-800 mb-4">Partecipanti</h4>
+    <div id="participantsContainer">
+        <div class="participant-entry grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+            {% for p in participants %}
+                <div>
+                    <label for="" class="block text-sm font-medium text-gray-700 mb-1">Giocatore</label>
+                    <select unicorn.model='participants.{{ forloop.counter0 }}.player_id'
+                    class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        {% for pl in this.get_players %}
+                            <option value="{{ pl.id}}">{{ pl.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="" class="block text-sm font-medium text-gray-700 mb-1">Deck</label>
+                    <select unicorn.model='participants.{{ forloop.counter0 }}.deck_id'
+                    class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        <option value="">---</option>
+                        {% for deck in this.get_decks_for_player(p.player_id) %}
+                            <option value="{{ deck.id }}">{{ deck.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <button unicorn.click='add_participant' type="button" 
+        class="mt-2 text-primary hover:text-primary-dark flex items-center text-sm font-medium">
+        <div class="w-4 h-4 flex items-center justify-center mr-1">
+            <i class="ri-add-line"></i>
+        </div>
+        Aggiungi Partecipante
+    </button>
+    
+    {% if forloop.counter0 > 0 %}
+        <button unicorn.click='remove_participant({{ forloop.counter0 }})' type="button"
+        class="mt-2 text-red-500 hover:text-red-700 flex items-center text-sm font-medium">
+            <div class="w-4 h-4 flex items-center justify-center mr-1">
+                <i class="ri-close-circle-line"></i>
+            </div>
+            Rimuovi Partecipante
+        </button>
+    {% endif %}
+</div>
+<div class="border-t border-gray-200 pt-4 flex justify-end">
+    <button unicorn.click='save' type="submit"
+        class="bg-primary hover:bg-opacity-90 text-white px-6 py-2 rounded-sm whitespace-nowrap transition-colors duration-300">
+        Salva Partita
+    </button>
+</div>
+
+    {% comment %} <h4>Partecipanti</h4>
+    {% for p in participants %}
+        <div style="">
+            <label for="">Giocatore</label>
+            <select unicorn.model='participants.{{ forloop.counter0 }}.player_id'>
+                <option value="">---</option>
+                {% for pl in this.get_players %}
+                    <option value="{{pl.id}}">{{ pl.username }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="">Deck</label>
+            <select unicorn.model='participants.{{ forloop.counter0 }}.deck_id'>
+                <option value="">---</option>
+                {% for deck in this.get_decks_for_player(p.player_id) %}
+                    <option value="{{ deck.id }}">{{ deck.name }}</option>
+                {% endfor %}
+            </select> {% endcomment %}
+{% comment %} 
+            {% if forloop.counter0 > 0 %}
+                <button type="button" unicorn.click='remove_participant({{ forloop.counter0 }})'>Rimuovi</button>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <button type="button" unicorn.click='add_participant'>+ Aggiungi partecipante</button>
+    <button unicorn.click='save'>Salva Match</button> {% endcomment %}
+</div>

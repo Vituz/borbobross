@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'tailwind',
     'django_browser_reload',
     'theme',
+    'django_unicorn',
     'home',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -148,3 +149,9 @@ CSRF_TRUSTED_ORIGINS=[
 ]
 
 AUTH_USER_MODEL = 'home.Player'
+
+UNICORN ={
+    'APPS': [
+        'home'
+    ]
+}

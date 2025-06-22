@@ -4,6 +4,9 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import random
+from .models import Player, Deck
+from .api.methods import get_matches_list
+from django.core.serializers.json import DjangoJSONEncoder
 
 # Create your views here.
 
@@ -15,112 +18,125 @@ def table_generator(request):
     return render(request, 'home/table_generator.html')
 
 def matches(request):
-    matches_list = {
-        '2025': [
-            {
-                'match_id': '1',
-                'winner': 'Vito',
-                'winner_deck': 'Deck Name',
-                'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
-                'participants': [
-                    {
-                        'name': 'Player Name',
-                        'deck': 'Deck Name'
-                    },
-                    {
-                        'name': 'Player Name',
-                        'deck': 'Deck Name'
-                    },
-                    {
-                        'name': 'Player Name',
-                        'deck': 'Deck Name'
-                    },
-                ],
-            },
-            {
-                'match_id': '2',       
-                'winner': 'Player Name',
-                'winner_deck': 'Deck Name',
-                'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
-                'participants': [
-                    {
-                        'name': 'Player Name',
-                        'deck': 'Deck Name'
-                    },
-                ],
-            },
-            {
-                'match_id': '3',
-                'winner': 'Player Name',
-                'winner_deck': 'Deck Name',
-                'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
-                'participants': [
-                    {
-                        'name': 'Player Name',
-                        'deck': 'Deck Name'
-                    },
-                ],
-            },
-            {
-                'match_id': '4',       
-                'winner': 'Player Name',
-                'winner_deck': 'Deck Name',
-                'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
-                'participants': [
-                    {
-                        'name': 'Player Name',
-                        'deck': 'Deck Name'
-                    },
-                ],
-            },
-        ],
-        '2024': [
-            {
-                'match_id': '1',        
-                'winner': 'Vito',
-                'winner_deck': 'Deck Name',
-                'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
-                'participants': [
-                    {
-                        'name': 'Player Name',
-                        'deck': 'Deck Name'
-                    },
-                    {
-                        'name': 'Player Name',
-                        'deck': 'Deck Name'
-                    },
-                ],
-            },
-            {
-                'match_id': '2',       
-                'winner': 'Player Name',
-                'winner_deck': 'Deck Name',
-                'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
-                'participants': [
-                    {
-                        'name': 'Player Name',
-                        'deck': 'Deck Name'
-                    },
-                ],
-            },
-            {
-                'match_id': '3',        
-                'winner': 'Player Name',
-                'winner_deck': 'Deck Name',
-                'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
-                'participants': [
-                    {
-                        'name': 'Player Name',
-                        'deck': 'Deck Name'
-                    },
-                ],
-            },
-        ],
-    }
+    
+    all_player = Player.objects.all().order_by('username')
+    all_deck = Deck.objects.all()
+    for deck in all_deck:
+        print(f'Deck name: {deck.name} - Player: {deck.player}')
+    
+    player_data_list = [{'id': p.id, 'username': p.username} for p in all_player]
+    deck_data_list = [{'name': d.name, 'player': d.player.username} for d in all_deck]
 
-    return render(request, 'home/matches.html', {
-        'matches_list': matches_list
-    })
+    matches_list = get_matches_list()
+    # matches_list = {
+    #     '2025': [
+    #         {
+    #             'match_id': '1',
+    #             'winner': 'Vito',
+    #             'winner_deck': 'Deck Name',
+    #             'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
+    #             'participants': [
+    #                 {
+    #                     'name': 'Player Name',
+    #                     'deck': 'Deck Name'
+    #                 },
+    #                 {
+    #                     'name': 'Player Name',
+    #                     'deck': 'Deck Name'
+    #                 },
+    #                 {
+    #                     'name': 'Player Name',
+    #                     'deck': 'Deck Name'
+    #                 },
+    #             ],
+    #         },
+    #         {
+    #             'match_id': '2',       
+    #             'winner': 'Player Name',
+    #             'winner_deck': 'Deck Name',
+    #             'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
+    #             'participants': [
+    #                 {
+    #                     'name': 'Player Name',
+    #                     'deck': 'Deck Name'
+    #                 },
+    #             ],
+    #         },
+    #         {
+    #             'match_id': '3',
+    #             'winner': 'Player Name',
+    #             'winner_deck': 'Deck Name',
+    #             'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
+    #             'participants': [
+    #                 {
+    #                     'name': 'Player Name',
+    #                     'deck': 'Deck Name'
+    #                 },
+    #             ],
+    #         },
+    #         {
+    #             'match_id': '4',       
+    #             'winner': 'Player Name',
+    #             'winner_deck': 'Deck Name',
+    #             'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
+    #             'participants': [
+    #                 {
+    #                     'name': 'Player Name',
+    #                     'deck': 'Deck Name'
+    #                 },
+    #             ],
+    #         },
+    #     ],
+    #     '2024': [
+    #         {
+    #             'match_id': '1',        
+    #             'winner': 'Vito',
+    #             'winner_deck': 'Deck Name',
+    #             'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
+    #             'participants': [
+    #                 {
+    #                     'name': 'Player Name',
+    #                     'deck': 'Deck Name'
+    #                 },
+    #                 {
+    #                     'name': 'Player Name',
+    #                     'deck': 'Deck Name'
+    #                 },
+    #             ],
+    #         },
+    #         {
+    #             'match_id': '2',       
+    #             'winner': 'Player Name',
+    #             'winner_deck': 'Deck Name',
+    #             'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
+    #             'participants': [
+    #                 {
+    #                     'name': 'Player Name',
+    #                     'deck': 'Deck Name'
+    #                 },
+    #             ],
+    #         },
+    #         {
+    #             'match_id': '3',        
+    #             'winner': 'Player Name',
+    #             'winner_deck': 'Deck Name',
+    #             'deck_img': 'https://readdy.ai/api/search-image?query=fantasy%20art%20of%20a%20lush%20green%20forest%20with%20majestic%20elves%20and%20mystical%20creatures%2C%20epic%20scene%20with%20magical%20atmosphere%2C%20digital%20art&width=400&height=150&seq=1&orientation=landscape',
+    #             'participants': [
+    #                 {
+    #                     'name': 'Player Name',
+    #                     'deck': 'Deck Name'
+    #                 },
+    #             ],
+    #         },
+    #     ],
+    # }
+
+    context = {
+        'matches_list': matches_list,
+        'all_player_data_json': player_data_list,
+        'all_decks': json.dumps(deck_data_list)
+    }
+    return render(request, 'home/matches.html', context)
 
 
 @csrf_exempt
@@ -158,3 +174,5 @@ def generate_tables(request):
     
 
 
+def counter(request):
+    return render(request, 'home/counter_page.html')

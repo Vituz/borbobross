@@ -1,0 +1,7 @@
+{% extends "index.html" %}
+{% load unicorn %}
+
+{% block main-content %}
+<h1>Pagina del Contatore</h1>
+{% unicorn 'add-match' %}
+{% endblock main-content %}

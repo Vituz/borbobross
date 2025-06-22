@@ -114,9 +114,41 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+function filter_deck(id){
+    console.log(id);
+    const player = document.getElementById(id).value;
+    const deckList = document.getElementById('deckList');
+    console.log(player);
+    console.log(deckList);
+    
+    // Recupera i dati JSON dai data attribute
+    const allDecks = JSON.parse(deckList.getAttribute('data_decks'));
 
+    // Pulisce la datalist
+    deckList.innerHTML = "";
+
+    // Filtra i deck per player
+    const filteredDecks = allDecks.filter(deck => deck.player === player);
+    console.log('Filtered Decks: ', filteredDecks)
+
+    filteredDecks.forEach(deck =>{
+        // if(deck.player === player){
+        const option = document.createElement('option');
+        option.value = deck.name;
+        deckList.appendChild(option);
+        // }
+        console.log(deck);
+    });
+}
+
+function deleteDeck(id){
+    const deckInput = document.getElementById(id);
+    deckInput.value='';
+}
 
 document.addEventListener('DOMContentLoaded', function () {
+    // const allPlayersData = JSON.parse(document.getElementById('all-player-data').textContent);
+
     const addGameBtn = document.getElementById('addGameBtn');
     const addGameModal = document.getElementById('addGameModal');
     const closeModalBtn = document.getElementById('closeModal');
@@ -124,10 +156,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const addParticipantBtn = document.getElementById('addParticipant');
     const participantsContainer = document.getElementById('participantsContainer');
     const addGameForm = document.getElementById('addGameForm');
+
     let participantCount = 1;
     // Apri il modal
     addGameBtn.addEventListener('click', function () {
         addGameModal.classList.remove('hidden');
+
     });
     // Chiudi il modal
     const closeModal = function () {
@@ -154,12 +188,18 @@ document.addEventListener('DOMContentLoaded', function () {
         newParticipant.className = 'participant-entry grid grid-cols-1 md:grid-cols-2 gap-4 mb-3 relative';
         newParticipant.innerHTML = `
                                     <div>
-                                    <label for="participant${participantCount}" class="block text-sm font-medium text-gray-700 mb-1">Nome Partecipante</label>
-                                    <input type="text" id="participant${participantCount}" class="w-full px-4 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                    <label for="player${participantCount}" class="block text-sm font-medium text-gray-700 mb-1">Nome Partecipante</label>
+                                    <input type="text" id="player${participantCount}" onclick="deleteDeck('deck${participantCount}')" class="w-full px-4 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" required list="playersList">
+                                    <datalist id="playersList">
+                                        {% for player in all_player_data_json %}
+                                        <option value="{{player.username}}"></option>                           
+                                        {% endfor %}
+                                    </datalist>
                                     </div>
                                     <div class="relative">
                                     <label for="deck${participantCount}" class="block text-sm font-medium text-gray-700 mb-1">Deck Utilizzato</label>
-                                    <input type="text" id="deck${participantCount}" class="w-full px-4 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" required>
+                                    <input type="text" id="deck${participantCount}" onmousedown="filter_deck('player${participantCount}')" class="w-full px-4 py-2 border border-gray-300 !rounded-button focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary" required list="deckList">
+                                    <datalist id="deckList" data_decks="{{all_decks}}"></datalist>
                                     <button type="button" class="remove-participant absolute top-9 right-0 -mt-1 mr-2 text-red-500 hover:text-red-700">
                                     <div class="w-5 h-5 flex items-center justify-center">
                                     <i class="ri-close-circle-line"></i>
@@ -187,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const participantEntries = document.querySelectorAll('.participant-entry');
         let participants = []
         participantEntries.forEach(entry => {
-            const participantInput = entry.querySelector('input[id^="participant"]');
+            const participantInput = entry.querySelector('input[id^="player"]');
             const deckInput = entry.querySelector('input[id^="deck"]');
             participants.push({
                 playerName: participantInput.value,

@@ -11,4 +11,6 @@ urlpatterns = [
     path('matches/', views.matches, name='matches-page'),
     path('matches/api/delete_match/', delete_match),
     path('matches/api/save_match/', save_match),
+    path('counter/', views.counter)
+    
 ]

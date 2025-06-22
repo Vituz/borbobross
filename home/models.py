@@ -4,9 +4,10 @@ import re
 from django.db import transaction
 
 class Player(AbstractUser):
-    image = models.ImageField(upload_to='img/', verbose_name='Player Image')
+    image = models.ImageField(upload_to='img/players', verbose_name='Player Image')
     win = models.IntegerField(default=0, verbose_name='Win Counter')
     defeat = models.IntegerField(default=0, verbose_name='Defeat Counter')
+    username = models.CharField(max_length=100, unique=True, verbose_name='Player Username')
 
     def __str__(self):
         return self.username   
@@ -22,7 +23,8 @@ class Color(models.Model):
 class Deck(models.Model):
     name = models.CharField(max_length=200, verbose_name='Deck Name')
     player = models.ForeignKey(Player, on_delete=models.CASCADE, blank=True, null=True, related_name='decks', verbose_name='Player')
-    image = models.ImageField(upload_to='img/')
+    image = models.TextField()
+    image_type = models.CharField(max_length=100, default='data:image/webp;base64')
     color = models.ManyToManyField('Color', related_name='decks', verbose_name='Deck Colors')
     card_list = models.TextField(blank=True, verbose_name='Card List', help_text="Inserisci la lista delle carte, una per riga, es: '4 Lightning Bolt'")
     cards = models.ManyToManyField('Card', through='DeckCard', related_name='decks')
@@ -56,9 +58,10 @@ class Match(models.Model):
     player = models.ManyToManyField('Player', related_name='match_players', verbose_name='Paticipants')
     winner_deck = models.ForeignKey('Deck', on_delete=models.SET_NULL, related_name='matches', verbose_name='Winner Deck', null=True)
     deck = models.ManyToManyField('Deck', related_name='match_deck', verbose_name='Decks')
+    # participants = models.JSONField(null=True, blank=True)
 
     def __str__(self):
-        return self.date
+        return self.year
 
 # class MatchPlayer(models.Model):
 #     match = models.ForeignKey('Match', on_delete=models.CASCADE, related_name='match_players', verbose_name='Match Id')

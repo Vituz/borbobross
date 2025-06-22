@@ -1,5 +1,8 @@
 {% extends "index.html" %}
 {% load static %}
+{% load unicorn %}
+{% csrf_token %}
+
 {% block title %}BorboMatches{% endblock %}
 
 {% block css_files %}
@@ -53,8 +56,8 @@
                         </div>
                     </button>
                     <div class="relative">
-                        <div class="h-45 bg-cover bg-center"
-                            style="background-image: url('{{match.deck_img}}')">
+                        <div class="h-60 bg-cover"
+                            style="background-image: url('{{match.deck_img_type}}, {{match.deck_img}}')">
                         </div>
                         <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4">
@@ -108,16 +111,26 @@
                     <div>
                         <label for="winnerName" class="block text-sm font-medium text-gray-700 mb-1">Nome
                             Vincitore</label>
-                        <input type="text" id="winnerName"
+                        <input type="text" id="winnerName" onclick="deleteDeck('winnerDeck')"
                             class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                            required>
+                            required
+                            list="playersList">
+
+                            <datalist id="playersList">
+                                {% for player in all_player_data_json %}
+                                <option value="{{player.username}}"></option>                           
+                                {% endfor %}
+                            </datalist>
                     </div>
                     <div>
                         <label for="winnerDeck" class="block text-sm font-medium text-gray-700 mb-1">Deck
                             Utilizzato</label>
-                        <input type="text" id="winnerDeck"
+                        <input type="text" id="winnerDeck" onmousedown="filter_deck('winnerName')"
                             class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                            required>
+                            required
+                            list="deckList">
+
+                            <datalist id="deckList" data_decks="{{all_decks}}"></datalist>
                     </div>
                 </div>
             </div>
@@ -126,18 +139,26 @@
                 <div id="participantsContainer">
                     <div class="participant-entry grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                         <div>
-                            <label for="participant1" class="block text-sm font-medium text-gray-700 mb-1">Nome
+                            <label for="participant" class="block text-sm font-medium text-gray-700 mb-1">Nome
                                 Partecipante</label>
-                            <input type="text" id="participant1"
+                            <input type="text" id="player0" onclick="deleteDeck('deck0')"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                                required>
+                                required
+                                list="playersList">
+                                <datalist id="playersList">
+                                    {% for player in all_player_data_json %}
+                                        <option value="{{player.username}}"></option>                           
+                                    {% endfor %}
+                            </datalist>
                         </div>
                         <div>
-                            <label for="deck1" class="block text-sm font-medium text-gray-700 mb-1">Deck
+                            <label for="deck0" class="block text-sm font-medium text-gray-700 mb-1">Deck
                                 Utilizzato</label>
-                            <input type="text" id="deck1"
+                            <input type="text" id="deck0" onmousedown="filter_deck('player0')"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                                required>
+                                required
+                                list="deckList">
+                                <datalist id="deckList" data_decks="{{all_decks}}"></datalist>
                         </div>
                     </div>
                 </div>
@@ -176,8 +197,9 @@
         </div>
     </div>
 </div>
-{% endblock %}
+{% endblock main-content %}
 
 {% block script-section %}
 <script src="{%static 'home/js/matches.js' %}"></script>
+<script id="all-player-data" type="application/json">{{ all_player_data_json }}</script>
 {% endblock %}
