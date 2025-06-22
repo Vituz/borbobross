@@ -28,6 +28,8 @@ SECRET_KEY = 'django-insecure-i+ux9ae3v#m+-l%mnz+=&_e@1m1ku5xksl7&6khd2iba!$i#8@
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False") == "True"
+
 
 ALLOWED_HOSTS = []
 
@@ -57,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+MIDDLEWARE = ['whitenoise.middleware.WhiteNoiseMiddleware'] + MIDDLEWARE
 
 ROOT_URLCONF = 'borbobross.urls'
 
@@ -92,7 +96,7 @@ if DEBUG:
         }
     }
 else:
-    DATABASE = {
+    DATABASES = {
         'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL')
     )
@@ -139,7 +143,8 @@ STATICFILES_DIRS=[
     BASE_DIR / 'static'
 ]
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
@@ -166,4 +171,3 @@ UNICORN ={
 }
 
 ALLOWED_HOSTS = [os.environ.get("RAILWAY_STATIC_URL", "*")]  # oppure metti direttamente il dominio
-DEBUG = os.environ.get("DEBUG", "False") == "True"
