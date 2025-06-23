@@ -7,6 +7,8 @@ import random
 from .models import Player, Deck
 from .api.methods import get_matches_list
 from django.core.serializers.json import DjangoJSONEncoder
+from django.contrib.auth import login, authenticate
+from .login_form import CustomLoginForm
 
 # Create your views here.
 
@@ -176,3 +178,26 @@ def generate_tables(request):
 
 def counter(request):
     return render(request, 'home/counter_page.html')
+def user_login(request):
+    if request.method == 'POST':
+        form = CustomLoginForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect(reverse('dashboard')) # inserire rotta pagina player
+            else:
+                form.add_error(None, 'Invalid Username or password.')
+    else:
+        form = CustomLoginForm(request)
+    return render(request, 'home/login.html', {'form': form})
+    
+    
+
+def dashboard(request):
+    if request.user.is_authenticated:
+        return render(request, 'home/dashboard.html')
+    else:
+        return redirect(reverse('home-page'))
