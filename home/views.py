@@ -4,7 +4,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import random
-from .models import Player, Deck
+from .models import Player, Deck, Color
 from .api.methods import get_matches_list
 from django.core.serializers.json import DjangoJSONEncoder
 from .login_form import CustomLoginForm
@@ -97,6 +97,17 @@ def login_view(request):
 
 def dashboard(request):
     if request.user.is_authenticated:
-        return render(request, 'home/dashboard.html')
+        decks = []
+        try:
+            decks = Deck.objects.filter(player = request.user.id)
+            print(f'DECKS: {decks}')
+                    
+
+        except Deck.DoesNotExist as e:
+            print(f'error: {e}')
+
+        return render(request, 'home/dashboard.html', {
+            'decks': decks
+        })
     else:
         return redirect(reverse('home-page'))
