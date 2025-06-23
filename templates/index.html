@@ -23,10 +23,17 @@
     <nav class="bg-secondary text-white shadow-md">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <a href="{% url 'home-page' %}" class="text-2xl font-['Montserrat'] text-white">Borborygbros</a>
-            <button class="bg-primary hover:bg-opacity-80 text-white px-6 py-2 rounded-sm rounded-button whitespace-nowrap transition-colors duration-300 flex items-center">
-                <i class="ri-user-line mr-2"></i>
-                Accedi
-            </button>
+            {% if request.user.is_authenticated %}
+                <button class="bg-primary hover:bg-opacity-80 text-white px-6 py-2 rounded-sm rounded-button whitespace-nowrap transition-colors duration-300 flex items-center">
+                    <i class="ri-user-line mr-2"></i>
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                </button>
+            {% else %}
+                <button class="bg-primary hover:bg-opacity-80 text-white px-6 py-2 rounded-sm rounded-button whitespace-nowrap transition-colors duration-300 flex items-center">
+                    <i class="ri-user-line mr-2"></i>
+                    <a href="{% url 'login' %}">Accedi</a>
+                </button>
+            {% endif %}
         </div>
     </nav>
     {% block main-content %}{% endblock %}

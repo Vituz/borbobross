@@ -7,6 +7,8 @@ from .api.methods import *
 urlpatterns = [
     path('', views.home_page, name='home-page'),
     path('generator/', views.table_generator, name='generator'),
+    path('login/', views.login_view, name='login'),
+    path('dashboard/', views.dashboard, name='dashboard'),
     path('generator/api/table_generator/', generate_tables),
     path('matches/', views.matches, name='matches-page'),
     path('matches/api/delete_match/', delete_match),

@@ -1,0 +1,93 @@
+{% extends "index.html" %}
+{% load static %}
+
+
+{% block title %}Login Page{% endblock title %}
+
+
+{% block main-content %}
+    <main class="container mx-auto px-4 py-10 flex justify-center items-center min-h-[80vh]">
+        <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Benvenuto</h1>
+                <p class="text-gray-600">Accedi al tuo account Borborygbros</p>
+            </div>
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                <div class="space-y-2">
+                    <label for="{{form.username.id_for_label}}" class="block text-sm font-medium text-gray-700">Username</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="ri-mail-line text-gray-400"></i>
+                        </div>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            {% for error in form.username.errors %}
+                                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-gray-700">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="ri-lock-line text-gray-400"></i>
+                        </div>
+                        {{ form.password }}
+                        {% if form.password.errors %}
+                            {% for error in form.password.errors %}
+                                <p class="text-red-500 text-xs italic">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="text-red-500 text-xs italic">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+                {% comment %} <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember" name="remember"
+                            class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                        <label for="remember" class="ml-2 block text-sm text-gray-700">Ricordami</label>
+                    </div>
+                    <a href="#" class="text-sm text-primary hover:text-opacity-80">Password dimenticata?</a>
+                </div> {% endcomment %}
+                <button type="submit"
+                    class="w-full bg-primary text-white py-2 px-4 !rounded-button hover:bg-opacity-90 transition-colors duration-200 flex items-center justify-center">
+                    <i class="ri-login-circle-line mr-2"></i>
+                    Accedi
+                </button>
+                {% comment %} <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">oppure continua con</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <button type="button"
+                        class="flex items-center justify-center px-4 py-2 border border-gray-300 !rounded-button hover:bg-gray-50 transition-colors duration-200">
+                        <i class="ri-google-fill mr-2 text-[#DB4437]"></i>
+                        Google
+                    </button>
+                    <button type="button"
+                        class="flex items-center justify-center px-4 py-2 border border-gray-300 !rounded-button hover:bg-gray-50 transition-colors duration-200">
+                        <i class="ri-discord-fill mr-2 text-[#7289DA]"></i>
+                        Discord
+                    </button>
+                </div>
+                <p class="mt-6 text-center text-sm text-gray-600">
+                    Non hai un account?
+                    <a href="#" class="text-primary hover:text-opacity-80 font-medium">Registrati</a>
+                </p> {% endcomment %}
+            </form>
+        </div>
+    </main>
+{% endblock main-content %}
+
+
+

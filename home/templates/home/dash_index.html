@@ -1,0 +1,52 @@
+{% load static tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <link rel="stylesheet" href="{% static "style.css" %}"></link>
+    <title>
+        {% block title %}{% endblock  %}
+    </title>
+    {% tailwind_css %}
+    {% block css_files %}{% endblock  %}
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="bg-secondary text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="{% url 'home-page' %}" class="text-2xl text-white">Borborygbros</a>
+            <div class="flex items-center space-x-4">
+                {% comment %} <button class="text-white flex items-center">
+                    <i class="ri-notification-3-line text-xl"></i>
+                </button> {% endcomment %}
+                <div class="relative">
+                    <button id="userMenuBtn" class="flex items-center space-x-2 text-white hover:text-gray-200">
+                        <img src="{% static request.user.image %}"
+                            class="w-8 h-8 rounded-full object-cover" alt="Profile">
+                        <span>{{ request.user.username }}</span>
+                       
+                        <i class="ri-arrow-down-s-line"></i>
+                    </button>
+                    {% comment %} <div id="userMenu"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-10">
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Profilo</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Impostazioni</a>
+                        <hr class="my-2 border-gray-200">
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Esci</a>
+                    </div> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% block main-content %}{% endblock %}
+</body>
+<script src="{% static 'js/main.js' %}"></script>
+{% block script-section %}{% endblock %}
+</html>
+
