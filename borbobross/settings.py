@@ -31,10 +31,6 @@ SECRET_KEY = 'django-insecure-i+ux9ae3v#m+-l%mnz+=&_e@1m1ku5xksl7&6khd2iba!$i#8@
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 # DEBUG = True
 
-
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -171,4 +167,17 @@ UNICORN ={
     ]
 }
 
-ALLOWED_HOSTS = [os.environ.get("RAILWAY_STATIC_URL", "*")]  # oppure metti direttamente il dominio
+# ALLOWED_HOSTS = [os.environ.get("RAILWAY_STATIC_URL", "*")]
+ALLOWED_HOSTS = [
+    'yourcustomdomain.com',
+    'borbobross-production.up.railway.app',
+    '.railway.app',
+]
+
+CSRF_TRUSTED_ORIGINS=[
+    'http://.railway.app',
+    'https://.railway.app',
+    'http://borbobross-production.up.railway.app',
+    'https://borbobross-production.up.railway.app',
+
+]
