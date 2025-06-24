@@ -10,7 +10,13 @@ class Player(AbstractUser):
     username = models.CharField(max_length=100, unique=True, verbose_name='Player Username')
 
     def __str__(self):
-        return self.username   
+        return self.username
+    
+    def save(self, *args, **kwargs):
+        if not self.is_superuser:     
+            if self.pk is None or not self.password.startswith('pbkdf2_sha256$'):
+                self.set_password(self.password)
+        super().save(*args, **kwargs)
 
 
 class Color(models.Model):

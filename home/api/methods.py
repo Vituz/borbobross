@@ -108,14 +108,26 @@ def get_matches_list():
             query_deck = match.deck.all()
 
             for deck in query_deck:
-                participants.append({'name': deck.player.username, 'deck': deck.name})
+                try:
+                    participants.append({
+                        'name': deck.player.username if deck.player and deck.player.username is not None else 'N/A',
+                        'deck': deck.name if deck.name else 'N/A'
+                        })
+                except Exception as e:
+                    print(f'exception: {e}')
+                    participants.append({
+                        'name': 'N/A',
+                        'deck': 'N/A'
+                    })
+                
+                print(f'PARTICIPANTS: {participants}')
 
             match_data = {
                 'match_id': str(match.id),
-                'winner': match.winner_player.username,
-                'winner_deck': match.winner_deck.name,
-                'deck_img': match.winner_deck.image,
-                'deck_img_type': match.winner_deck.image_type,
+                'winner': match.winner_player.username if match.winner_player and match.winner_player.username is not None else 'N/A',
+                'winner_deck': match.winner_deck.name if match.winner_deck and match.winner_deck.name is not None else 'N/A',
+                'deck_img': match.winner_deck.image if match.winner_deck and match.winner_deck.image is not None else 'N/A',
+                'deck_img_type': match.winner_deck.image_type if match.winner_deck and match.winner_deck.image_type is not None else 'N/A',
                 'participants': participants
             }
             # print(f'MATCH DATA: {match_data}')
@@ -125,7 +137,7 @@ def get_matches_list():
            
             # print(f'MATCH: {match.winner_player}')
 
-        print(f'MATCHES LIST: {matches_list}')
+        # print(f'MATCHES LIST: {matches_list}')
     except KeyError as e:
         print(f'error: {str(e)}')
     

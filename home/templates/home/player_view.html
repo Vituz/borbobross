@@ -1,0 +1,25 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block title %}Lista Giocatori{% endblock title %}
+
+{% block main-content %}
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-10">
+        <h1 class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-800">Borboboys</h1>
+        <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">Esplora tutti i partecipanti</p>
+        
+        <!-- Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+            <!-- Player Cards -->
+            {% for player in players %}
+                <a href="#" class="card-hover rounded-lg overflow-hidden shadow-lg h-64 relative">
+                    <div class="absolute inset-0 bg-cover" style="background-image: url( '/static/{{player.image}}')"></div>
+                    <div class="card-overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <h3 class="text-2xl font-bold text-white mb-2">{{player.username}}</h3>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock main-content %}

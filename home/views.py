@@ -8,6 +8,7 @@ from .models import Player, Deck, Color
 from .api.methods import get_matches_list
 from django.core.serializers.json import DjangoJSONEncoder
 from .login_form import CustomLoginForm
+from .new_deck_form import DeckForm
 from django.contrib.auth import login, authenticate
 
 # Create your views here.
@@ -101,7 +102,11 @@ def dashboard(request):
         try:
             decks = Deck.objects.filter(player = request.user.id)
             print(f'DECKS: {decks}')
-                    
+            for deck in decks:
+                colors = deck.color.all()
+                for color in colors:
+                    print(f'COLOR: {color.name}')
+                
 
         except Deck.DoesNotExist as e:
             print(f'error: {e}')
@@ -111,3 +116,35 @@ def dashboard(request):
         })
     else:
         return redirect(reverse('home-page'))
+    
+
+def add_new_deck(request):
+    print(request.user.id)
+    if request.user.is_authenticated: 
+        if request.method == 'POST':
+            print(f'REQUEST POST: TRUE')
+            form = DeckForm(request.POST, user_id = request.user.id)
+            if form.is_valid():
+                deck = form.save(commit=False)
+                deck.player = request.user
+                deck.save()
+                form.save_m2m()
+                return redirect(reverse('dashboard'))
+            else:
+                form.add_error(None, 'Errore nel salvataggio mazzo')
+        else:
+            print(f'REQUEST POST: FALSE')
+            form = DeckForm(user_id = request.user.id)
+        return render(request, 'home/new_deck.html', {
+            'deck_form': form
+        })
+    else:
+        return redirect(reverse('home-page'))
+    
+
+def players_view(request):
+    players = Player.objects.all()
+
+    return render(request, 'home/player_view.html', {
+        'players': players
+    })
