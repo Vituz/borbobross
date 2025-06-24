@@ -8,6 +8,7 @@ class Player(AbstractUser):
     win = models.IntegerField(default=0, verbose_name='Win Counter')
     defeat = models.IntegerField(default=0, verbose_name='Defeat Counter')
     username = models.CharField(max_length=100, unique=True, verbose_name='Player Username')
+    description = models.CharField(max_length=150, null=True, blank=True, verbose_name='Descrizione Giocatore')
 
     def __str__(self):
         return self.username
