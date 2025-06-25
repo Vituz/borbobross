@@ -1,0 +1,263 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block title %}Statistiche{% endblock title %}
+
+{% block main-content %}
+    <main class="container mx-auto px-4 py-10">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8">Statistiche delle Partite</h1>
+        <!-- Partite per Anno -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Partite per Anno</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {% for item in match_per_year %}
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <div class="text-2xl font-bold text-primary mb-1">{{item.match_count}}</div>
+                        <div class="text-gray-600">{{item.year}}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Top Players e Decks -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <!-- Giocatori più Vincenti -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Giocatori più Vincenti</h2>
+                <div class="space-y-4">
+                    <!-- Primo Classificato-->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 flex items-center justify-center text-yellow-400">
+                                <i class="ri-trophy-line"></i>
+                            </div>
+                            <span class="font-medium">{{ player_most_wins.0.username|title }}</span>
+                        </div>
+                        {% if player_most_wins.0.win == 1  %}
+                            <span class="text-primary font-bold">{{ player_most_wins.0.win }} vittoria</span>
+                        {% else %}
+                            <span class="text-primary font-bold">{{ player_most_wins.0.win }} vittorie</span>
+                        {% endif %}
+                    </div>
+                    <!-- Secondo Classificato-->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 flex items-center justify-center text-yellow-400">
+                                <i class="ri-medal-line"></i>
+                            </div>
+                            <span class="font-medium">{{ player_most_wins.1.username|title }}</span>
+                        </div>
+                        {% if player_most_wins.1.win == 1  %}
+                            <span class="text-primary font-bold">{{ player_most_wins.1.win }} vittoria</span>
+                        {% else %}
+                            <span class="text-primary font-bold">{{ player_most_wins.1.win }} vittorie</span>
+                        {% endif %}                    </div>
+                    <!-- PriTerzomo Classificato-->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 flex items-center justify-center text-yellow-400">
+                                <i class="ri-medal-2-line"></i>
+                            </div>
+                            <span class="font-medium">{{ player_most_wins.2.username|title }}</span>
+                        </div>
+                        {% if player_most_wins.2.win == 1  %}
+                            <span class="text-primary font-bold">{{ player_most_wins.2.win }} vittoria</span>
+                        {% else %}
+                            <span class="text-primary font-bold">{{ player_most_wins.2.win }} vittorie</span>
+                        {% endif %}                    </div>
+                </div>
+            </div>
+            <!-- Mazzi più Vincenti -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Mazzi più Vincenti</h2>
+                <div class="space-y-4">
+                    <!-- Primo Deck-->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center justify-start">
+                            <div class="h-8 flex items-center">
+                                {% for color in deck_most_wins.0.color.all %}
+                                    <img src="{% static color.image %}"
+                                    alt="{{ color.name }}" class="mr-1 felx items-center h-5">
+                                {% endfor %}
+                            </div>
+                            <span class="font-medium items-center ml-0">{{ deck_most_wins.0.name|title }}</span>
+                        </div>
+                        {% if deck_most_wins.0.win == 1 %}
+                            <span class="text-primary font-bold">{{ deck_most_wins.0.win }} vittoria</span>
+                        {% else %}
+                            <span class="text-primary font-bold">{{ deck_most_wins.0.win }} vittorie</span>
+                        {% endif %}
+                    </div>
+                    <!-- Secondo Deck-->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center justify-start">
+                            <div class="h-8 flex items-center">
+                                {% for color in deck_most_wins.1.color.all %}
+                                    <img src="{% static color.image %}"
+                                    alt="{{ color.name }}" class="mr-1 felx items-center h-5">
+                                {% endfor %}
+                            </div>
+                            <span class="font-medium items-center ml-1">{{ deck_most_wins.1.name|title }}</span>
+                        </div>
+                        {% if deck_most_wins.1.win == 1 %}
+                            <span class="text-primary font-bold">{{ deck_most_wins.1.win }} vittoria</span>
+                        {% else %}
+                            <span class="text-primary font-bold">{{ deck_most_wins.1.win }} vittorie</span>
+                        {% endif %}
+                    </div>
+                    <!-- Terzo Deck-->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center justify-start">
+                            <div class="h-8 flex items-center">
+                                {% for color in deck_most_wins.2.color.all %}
+                                    <img src="{% static color.image %}"
+                                    alt="{{ color.name }}" class="mr-1 felx items-center h-5">
+                                {% endfor %}
+                            </div>
+                            <span class="font-medium items-center ml-2">{{ deck_most_wins.2.name|title }}</span>
+                        </div>
+                        {% if deck_most_wins.2.win == 1 %}
+                            <span class="text-primary font-bold">{{ deck_most_wins.2.win }} vittoria</span>
+                        {% else %}
+                            <span class="text-primary font-bold">{{ deck_most_wins.2.win }} vittorie</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Statistiche Sconfitte -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Giocatori con più Sconfitte -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Giocatori con più Sconfitte</h2>
+                <div class="space-y-4">
+                    <!-- Primo Giocatore con più sconfitte-->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 flex items-center justify-center text-gray-400">
+                                <i class="ri-emotion-sad-line"></i>
+                            </div>
+                            <span class="font-medium">{{ player_most_loss.0.username }}</span>
+                        </div>
+                        {% if player_most_loss.0.defeat == 1 %}
+                            <span class="text-gray-600 font-bold">{{ player_most_loss.0.defeat }} sconfitta</span>
+                        {% else %}
+                        <span class="text-gray-600 font-bold">{{ player_most_loss.0.defeat }} sconfitte</span>
+                        {% endif %}
+                    </div>
+                    <!-- Secondo Giocatore con più sconfitte-->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 flex items-center justify-center text-gray-400">
+                                <i class="ri-emotion-sad-line"></i>
+                            </div>
+                            <span class="font-medium">{{ player_most_loss.1.username }}</span>
+                        </div>
+                        {% if player_most_loss.1.defeat == 1 %}
+                            <span class="text-gray-600 font-bold">{{ player_most_loss.1.defeat }} sconfitta</span>
+                        {% else %}
+                        <span class="text-gray-600 font-bold">{{ player_most_loss.1.defeat }} sconfitte</span>
+                        {% endif %}
+                    </div>
+                    <!-- Terzo Giocatore con più sconfitte-->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 flex items-center justify-center text-gray-400">
+                                <i class="ri-emotion-sad-line"></i>
+                            </div>
+                            <span class="font-medium">{{ player_most_loss.2.username }}</span>
+                        </div>
+                        {% if player_most_loss.2.defeat == 1 %}
+                            <span class="text-gray-600 font-bold">{{ player_most_loss.2.defeat }} sconfitta</span>
+                        {% else %}
+                        <span class="text-gray-600 font-bold">{{ player_most_loss.2.defeat }} sconfitte</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!-- Mazzi con più Sconfitte -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Mazzi con più Sconfitte</h2>
+                <div class="space-y-4">
+                    <!-- Pirmo Deck -->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center justify-start">
+                            <div class="h-8 flex items-center">
+                                {% for color in deck_most_loss.0.color.all %}
+                                    <img src="{% static color.image %}"
+                                    alt="{{ color.name }}" class="mr-1 felx items-center h-5">
+                                {% endfor %}
+                            </div>
+                            <span class="font-medium items-center ml-0">{{ deck_most_loss.0.name|title }}</span>
+                        </div>
+                        {% if deck_most_loss.0.defeat == 1 %}
+                            <span class="text-gray-600 font-bold">{{ deck_most_loss.0.defeat }} sconfitta</span>
+                        {% else %}
+                            <span class="text-gray-600 font-bold">{{ deck_most_loss.0.defeat }} sconfitte</span>
+                        {% endif %}
+                    </div>
+                    <!-- Secondo Deck -->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center justify-start">
+                            <div class="h-8 flex items-center">
+                                {% for color in deck_most_loss.1.color.all %}
+                                    <img src="{% static color.image %}"
+                                    alt="{{ color.name }}" class="mr-1 felx items-center h-5">
+                                {% endfor %}
+                            </div>
+                            <span class="font-medium items-center ml-0">{{ deck_most_loss.1.name|title }}</span>
+                        </div>
+                        {% if deck_most_loss.1.defeat == 1 %}
+                            <span class="text-gray-600 font-bold">{{ deck_most_loss.1.defeat }} sconfitta</span>
+                        {% else %}
+                            <span class="text-gray-600 font-bold">{{ deck_most_loss.1.defeat }} sconfitte</span>
+                        {% endif %}
+                    </div>
+                    <!-- Terzo Deck -->
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center justify-start">
+                            <div class="h-8 flex items-center">
+                                {% for color in deck_most_loss.2.color.all %}
+                                    <img src="{% static color.image %}"
+                                    alt="{{ color.name }}" class="mr-1 felx items-center h-5">
+                                {% endfor %}
+                            </div>
+                            <span class="font-medium items-center ml-0">{{ deck_most_loss.2.name|title }}</span>
+                        </div>
+                        {% if deck_most_loss.2.defeat == 1 %}
+                            <span class="text-gray-600 font-bold">{{ deck_most_loss.2.defeat }} sconfitta</span>
+                        {% else %}
+                            <span class="text-gray-600 font-bold">{{ deck_most_loss.2.defeat }} sconfitte</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Additional Stats -->
+        {% comment %} <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-primary mb-2">156</div>
+                    <div class="text-sm text-gray-600">Partite Totali</div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-primary mb-2">42</div>
+                    <div class="text-sm text-gray-600">Giocatori Unici</div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-primary mb-2">35</div>
+                    <div class="text-sm text-gray-600">Mazzi Diversi</div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="text-center">
+                    <div class="text-4xl font-bold text-primary mb-2">4.2</div>
+                    <div class="text-sm text-gray-600">Media Giocatori per Partita</div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+    </main>
+{% endblock main-content %}

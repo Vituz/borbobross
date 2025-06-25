@@ -1,18 +1,15 @@
-{% extends "home/dash_index.html" %}
+{% extends "index.html" %}
 {% load static %}
 
-
-{% block title %} {{ request.user.username }} {% endblock title %}
-
+{% block title %}Lista Decks{% endblock title %}
 
 {% block main-content %}
     <main class="container mx-auto px-4 py-10">
         <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-800">I Miei Mazzi</h1>
+            <h1 class="text-3xl font-bold text-gray-800">Lista Mazzi di {{ player_username|title }}</h1>
             <button
                 class="bg-primary hover:bg-opacity-80 text-white px-6 py-3 rounded whitespace-nowrap transition-colors duration-300 flex items-center">
-                <i class="ri-add-line mr-2"></i>
-                <a href="{% url 'new-deck' %}">Crea Nuovo Mazzo</a>
+                <a href="{% url 'player-view' %}">Indietro</a>
             </button>
         </div>
         <!-- Lista Mazzi -->

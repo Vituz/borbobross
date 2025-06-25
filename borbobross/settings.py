@@ -28,8 +28,8 @@ SECRET_KEY = 'django-insecure-i+ux9ae3v#m+-l%mnz+=&_e@1m1ku5xksl7&6khd2iba!$i#8@
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = os.environ.get("DEBUG", "False") == "True"
-# DEBUG = True
+# DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = True
 
 # Application definition
 
@@ -172,6 +172,7 @@ ALLOWED_HOSTS = [
     'yourcustomdomain.com',
     'borbobross-production.up.railway.app',
     '.railway.app',
+    '127.0.0.1',
 ]
 
 CSRF_TRUSTED_ORIGINS=[

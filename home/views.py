@@ -4,12 +4,13 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import random
-from .models import Player, Deck, Color
+from .models import Player, Deck, Color, Match
 from .api.methods import get_matches_list
 from django.core.serializers.json import DjangoJSONEncoder
 from .login_form import CustomLoginForm
 from .new_deck_form import DeckForm
 from django.contrib.auth import login, authenticate
+from django.db.models import Count
 
 # Create your views here.
 
@@ -101,12 +102,7 @@ def dashboard(request):
         decks = []
         try:
             decks = Deck.objects.filter(player = request.user.id)
-            print(f'DECKS: {decks}')
-            for deck in decks:
-                colors = deck.color.all()
-                for color in colors:
-                    print(f'COLOR: {color.name}')
-                
+            print(f'DECKS: {decks}')                
 
         except Deck.DoesNotExist as e:
             print(f'error: {e}')
@@ -116,6 +112,19 @@ def dashboard(request):
         })
     else:
         return redirect(reverse('home-page'))
+    
+
+def player_decks_list(request, player_id):
+    decks = []
+    try:
+        decks = Deck.objects.filter(player = player_id)
+        player = Player.objects.get(id = player_id)
+    except Deck.DoesNotExist as e:
+        print(f'error: {e}')
+    return render(request, 'home/player_decks.html', {
+        'decks': decks,
+        'player_username': player.username
+    })
     
 
 def add_new_deck(request):
@@ -147,4 +156,33 @@ def players_view(request):
 
     return render(request, 'home/player_view.html', {
         'players': players
+    })
+
+
+def stats_page(request):
+    try:
+        player_most_wins = Player.objects.all().order_by('-win')[:3]
+        player_most_loss = Player.objects.all().order_by('-defeat')[:3]
+        deck_most_wins = Deck.objects.all().order_by('-win')[:3]
+        deck_most_loss = Deck.objects.all().order_by('-defeat')[:3]
+        
+        match_per_year = Match.objects.all().values('year').annotate(
+            match_count = Count('id')
+        ).order_by('-year')
+
+        for deck in deck_most_wins:
+            print(f'COLORS: {deck.color.all()}')
+            for color in deck.color.all():
+                print(f'SINGLE COLOR: {color.name} - {color.image}')
+        # print(player_most_wins)
+        # print(player_most_loss)
+
+    except Exception as e:
+        print(e)
+    return render(request, 'home/stats_page.html', {
+        'match_per_year': match_per_year,
+        'player_most_wins': player_most_wins,
+        'player_most_loss': player_most_loss,
+        'deck_most_wins': deck_most_wins,
+        'deck_most_loss': deck_most_loss
     })

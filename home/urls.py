@@ -11,6 +11,8 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('new_deck/', views.add_new_deck, name='new-deck'),
     path('players/', views.players_view, name='player-view'),
+    path('players/<int:player_id>/', views.player_decks_list, name='player-deck-list'),
+    path('stats/', views.stats_page, name='stats-page'),
     path('generator/api/table_generator/', generate_tables),
     path('matches/', views.matches, name='matches-page'),
     path('matches/api/delete_match/', delete_match),
