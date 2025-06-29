@@ -58,13 +58,16 @@
                                 <div class="text-primary font-medium">{{ deck.win }} sconfitte</div>
                             </div>
                         </div>
-                        <div class="flex justify-between items-cente>r">
+                        <div class="flex justify-between items-cente mt-2">
                             <button class="text-primary hover:text-opacity-80 flex items-center">
                                 <i class="ri-edit-line mr-1"></i>
-                                Modifica
+                                {% comment %} <a href="{% url 'modify-deck' deck_id %}">Modifica</a> {% endcomment %}
+                                <a href="{% url 'modify-deck' deck.id %}">Modifica</a>
                             </button>
                             <button class="text-gray-600 hover:text-gray-800">
-                                <i class="ri-more-2-fill"></i>
+                                <a href="{% url 'delete-deck' deck.id %}" onclick="return confirm('Sei sicuro di voler eliminare questo deck? Questa operazione è irreversibile.');">
+                                    <i class="ri-delete-bin-5-fill"></i>
+                                </a>
                             </button>
                         </div>
                     </div>

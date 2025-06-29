@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -147,6 +147,35 @@ def add_new_deck(request):
         return render(request, 'home/new_deck.html', {
             'deck_form': form
         })
+    else:
+        return redirect(reverse('home-page'))
+    
+
+def modify_deck(request, deck_id):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            deck = get_object_or_404(Deck, id = deck_id, player = request.user)
+            form = DeckForm(request.POST, instance=deck)
+            if form.is_valid():
+                deck = form.save(commit=False)
+                deck.player = request.user
+                deck.save()
+                form.save_m2m()
+                return redirect(reverse('dashboard'))
+            else:
+                form.add_error(None, 'Errore dirante la modifica del mazzo')
+        else:
+            form = DeckForm(user_id = request.user.id, deck_id = deck_id)
+            return render(request, 'home/modify_deck.html', {'deck_form': form})
+    else:
+        return redirect(reverse('home-page'))
+    
+
+def delete_deck(request, deck_id):
+    if request.user.is_authenticated:
+        deck = get_object_or_404(Deck, id=deck_id)
+        deck.delete()
+        return redirect(reverse('dashboard'))
     else:
         return redirect(reverse('home-page'))
     
