@@ -50,6 +50,8 @@ def save_match(request):
 
                 player.win += 1
                 deck.win += 1
+                player.save()
+                deck.save()
                 new_match.winner_player = player
                 new_match.winner_deck = deck
                 new_match.save()
@@ -59,13 +61,15 @@ def save_match(request):
                     try:
                         print(f'Participants Player: {pl.get('playerName')}')
                         print(f'Participants Deck: {pl.get('deckName')}')
-                        p = Player.objects.get(username__iexact = pl.get('playerName'))
+                        p = Player.objects.get(username = pl.get('playerName'))
                         new_match.player.add(p)
                         p.defeat += 1
+                        p.save()
 
                         d = Deck.objects.get(name__iexact = pl.get('deckName'))
                         new_match.deck.add(d)
                         d.defeat += 1
+                        d.save()
                     except Exception as e:
                         return JsonResponse({'error': f'Si è verificato un errore: {str(e)}'}, status=500)
                     
