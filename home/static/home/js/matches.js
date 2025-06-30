@@ -286,6 +286,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         addMatchOnDb(winnerName, winnerDeck, participants);
         closeModal();
-        // location.reload();
+        location.reload();
     });
 });
