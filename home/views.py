@@ -199,12 +199,14 @@ def stats_page(request):
             match_count = Count('id')
         ).order_by('-year')
 
-        for deck in deck_most_wins:
-            print(f'COLORS: {deck.color.all()}')
-            for color in deck.color.all():
-                print(f'SINGLE COLOR: {color.name} - {color.image}')
-        # print(player_most_wins)
-        # print(player_most_loss)
+        # for deck in deck_most_wins:
+            # print(f'COLORS: {deck.color.all()}')
+            # for color in deck.color.all():
+                # print(f'SINGLE COLOR: {color.name} - {color.image}')
+        print(f'WIN PLAYER LIST: {player_most_wins}')
+        print(f'LOSS PLAYER LIST: {player_most_loss}')
+        print(f'WIN DECK LIST: {deck_most_wins}')
+        print(f'LOSS DECK LIST: {deck_most_loss}')
 
     except Exception as e:
         print(e)
