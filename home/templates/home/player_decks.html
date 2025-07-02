@@ -21,7 +21,7 @@
                     </div>
                     <div class="p-4">
                         <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-xl font-semibold text-gray-800">{{deck.name}}</h3>
+                            <h3 class="text-xl font-semibold text-gray-800 line-clamp-3 max-w-1/2">{{deck.name}}</h3>
                             <div class="flex space-x-1">
                                 {% for color in deck.color.all %}
                                     <img src="{% static color.image %}"
